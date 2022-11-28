@@ -9,14 +9,14 @@ import {
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 
-function CardInfo() {
+function CardInfo(props) {
   return (
     <div className="info-container">
-      <h3>MR. ROBERT</h3>
-      <p>UI/UX Designer </p>
+      <h3>{props.freelancer.title} {props.freelancer.last_name}</h3>
+      <p>{props.freelancer.role}</p>
       <div className="hire">
         <div>
-          Rate:<span className="price">$85/hr</span>{" "}
+          Rate:<span className="price">{props.freelancer.fee}/hr</span>{" "}
         </div>
         <button className="hire-button">Hire Me</button>
       </div>
@@ -29,7 +29,7 @@ function CardInfo() {
           <FontAwesomeIcon icon={faStar} />
           <FontAwesomeIcon icon={faStar} />
         </div>
-        <div>(105 Reviews)</div>
+        <div>({props.freelancer.reviews} Reviews)</div>
       </div>
       <div className="icons">
         <div className="verified">

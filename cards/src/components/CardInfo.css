@@ -96,3 +96,27 @@
   .icons .not-available * {
     color: #bcbcbc;
   }
+
+  @media screen and (min-width:992px){
+    .rating, .icons {
+          flex-wrap: wrap;
+    }
+    .rating>div{
+      margin-bottom: 1em;
+      font-size: 1.3rem;
+    }
+    .icons{
+      justify-content: space-evenly;
+    }
+    .icons .verified{
+      margin: 0 30% .5em;
+    }
+  }
+  @media screen and (min-width:1200px){
+    .icons {
+          justify-content: flex-start;
+    }
+    .icons .verified{
+      margin: 0 .5em 0 0;
+    }
+  }
