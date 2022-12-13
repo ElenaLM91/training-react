@@ -4,12 +4,13 @@ import Wrapper from "./wrappers/Wrapper";
 import { expensesStats } from "../utils/expensesStats";
 import { monthToString } from "../utils/monthToString";
 
-const ExpensesFilter = (props) => {
+function ExpensesFilter(props) {
   const [month, setMonth] = useState(
     monthToString(new Date().toLocaleDateString())
   );
   const handleSelect = (e) => {
     setMonth(e.target.value);
+    props.onSelectMonth(e.target.value);
   };
   const stats = expensesStats(props.month);
   return (
@@ -20,7 +21,7 @@ const ExpensesFilter = (props) => {
             <div className="label">
               <p>Incomes %</p>
               <div className="bar">
-                <div className="incomes" style={{ width: `${stats[0]}` }}></div>
+                <div className="incomes" style={{ width: ${stats[0]} }}></div>
               </div>
             </div>
             <div className="label">
@@ -28,17 +29,17 @@ const ExpensesFilter = (props) => {
               <div className="bar">
                 <div
                   className="expenses"
-                  style={{ width: `${stats[1]}` }}
+                  style={{ width: ${stats[1]} }}
                 ></div>
               </div>
             </div>
           </div>
           <form>
-            <select name="month" onChange={handleSelect}>
+            <select name="month" onChange={handleSelect} value={month}>
               <option value="January">January</option>
               <option value="February">February</option>
               <option value="March">March</option>
-              <option value="Abril">Abril</option>
+              <option value="April">April</option>
               <option value="May">May</option>
               <option value="June">June</option>
               <option value="July">July</option>
@@ -53,6 +54,6 @@ const ExpensesFilter = (props) => {
       }
     />
   );
-};
+}
 
 export default ExpensesFilter;

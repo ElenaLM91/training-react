@@ -19,10 +19,17 @@ import ItemContainer from "./wrappers/ItemContainer";
 import Wrapper from "./wrappers/Wrapper";
 import { useState, useEffect } from "react";
 import ExpensesFilter from "./ExpensesFilter";
+import { expensesStats } from "../utils/expensesStats";
+import { monthToString } from "../utils/monthToString";
 
 function Expenses(props) {
+  const [filter, setFilter] = useState(
+    monthToString(new Date().toLocaleDateString())
+  );
   const [expenses, setNewExpenses] = useState(itemsList);
-
+  const filteredMonth = (month) => {
+    setFilter(month);
+  };
   // let expense = {};
 
   const getIcons = (category) => {
@@ -41,6 +48,12 @@ function Expenses(props) {
         return [faSquare, faBoltLightning];
     }
   };
+  let filteredMonths = [];
+  if (filter !== "") {
+    filteredMonths = expenses.filter(
+      (item) => monthToString(item.data.date) === filter
+    );
+  }
 
   useEffect(() => {
     if (Object.keys(props.onNewExpense).length > 0) {
@@ -62,9 +75,10 @@ function Expenses(props) {
 
   return (
     <div>
-      <ExpensesFilter month ={expenses}/>
+      <ExpensesFilter onSelectMonth={filteredMonth} month={expenses} />
+
       <Wrapper
-        content={expenses.map((item, index) => {
+        content={filteredMonths.map((item, index) => {
           return (
             <ItemContainer key={index}>
               <ItemIcon icons={item.icons} classes={item.classes} />
