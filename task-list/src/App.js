@@ -3,77 +3,12 @@ import TaskList from "./components/Tasks/TasksList";
 import TasksInput from "./components/Tasks/TasksInput";
 import classes from "./App.module.css";
 import HourGlass from "./components/UI/Spinners/HourGlass";
+import useFetch from "./hooks/useFetch";
 
-const BASE_URL = "https://task-list-7899c-default-rtdb.europe-west1.firebasedatabase.app/"
 
 const App = () => {
-  const [tasks, setNewTask] = useState({});
-  const [pending, setPending] = useState(false);
-  const [error, setError] = useState("");
 
-  const fetchTasksHandler = async (
-    method = "GET",
-    task = { id: "", text: "" }
-  ) => {
-    try {
-      setPending(true);
-      setError(null);
-
-      let response = null;
-
-      if (method === "DELETE") {
-        response = await fetch(
-          BASE_URL + "tasks/"+
-            task.id +
-            ".json",
-          { method }
-        );
-      } else if (method === "PATCH") {
-        response = await fetch(
-          BASE_URL + "tasks/"+
-            task.id +
-            ".json",
-          {
-            method,
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ title: task.text }),
-          }
-        );
-      } else {
-        response = await fetch(
-          BASE_URL + "tasks.json",
-          {
-            method,
-            headers: {
-              "Content-Type": method !== "GET" ? "application/json" : "",
-            },
-            body: method !== "GET" ? JSON.stringify({ title: task.text }) : null,
-          }
-        );
-      }
-
-      // console.log(response);
-
-      if (response.ok) {
-        const data = await response.json();
-        if (method === "GET") {
-          setNewTask(data);
-        } else {
-          fetchTasksHandler();
-        }
-        // setNewTask(data);
-        // console.log(data);
-      }
-    } catch (error) {
-      setError({
-        message: error.message || "Something went wrong",
-      });
-    }
-
-    setPending(false);
-  };
+ const {pending,error,tasks,fetchTasksHandler} = useFetch()
 
   useEffect(() => {
     fetchTasksHandler();
